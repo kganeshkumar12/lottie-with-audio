@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lottie with Audio</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.6.10/lottie.min.js"></script>
+	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js"></script>
+</head>
+<body>
+
+<div><input type="text" id="audioInput" placeholder="enter audio url" value="./suzume.mp3"></div>
+<div><input type="text" id="lottieInput" placeholder="enter lottie url" value="./girl-cycling-in-autumn.json"></div>
+<div><button type="submit" id="submitInput">submit</button>
+
+<lottie-player id="lottiePlayer" background="transparent" speed="1" style="width: 100%; height: 100vh;" loop autoplay mode="normal"></lottie-player>
+
+<script>
+const lottiePlayer = document.getElementById("lottiePlayer")
+const audioInput = document.getElementById("audioInput")
+const lottieInput = document.getElementById("lottieInput")
+
+let audio = null
+function createAudio(assetPath) {
+    audio = new Howl({
+	    src: [assetPath], 
+	    volume: 1, 
+	    loop: true
+	})
+}
+createAudio(audioInput.value)
+
+function createLottie(assetPath) {
+    lottiePlayer.load(assetPath)
+}
+createLottie(lottieInput.value)
+
+lottiePlayer.addEventListener('play', function(){
+	if (!audio.playing()) audio.play()
+})
+lottiePlayer.addEventListener('stop', function(){
+	audio.stop()
+})
+
+submitInput.addEventListener('click', function(){
+	if (audioInput.value) {
+		createAudio(audioInput.value)
+	}
+	if (lottieInput.value) {
+		createAudio(lottieInput.value)
+	}
+})
+</script>
+
+</body>
+</html>
